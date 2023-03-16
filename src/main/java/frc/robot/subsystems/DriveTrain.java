@@ -154,9 +154,7 @@ MecanumDrive m_drive;
   SmartDashboard.putNumber("frontRight speed", frontright.getMotorOutputPercent());
   SmartDashboard.putNumber("backLeft speed", backleft.getMotorOutputPercent());
   SmartDashboard.putNumber("backRight speed", backright.getMotorOutputPercent());
-
-
-
+  
 
   drive_by_voltage(fl.calculate(0));
   some = get_fl_motor().getSelectedSensorPosition();

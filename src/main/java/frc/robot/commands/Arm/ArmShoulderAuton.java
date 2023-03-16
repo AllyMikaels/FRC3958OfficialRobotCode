@@ -4,32 +4,25 @@
 
 package frc.robot.commands.Arm;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class arm_auton extends ProfiledPIDCommand {
-  /** Creates a new arm_auton. */
-  public arm_auton() {
+public class ArmShoulderAuton extends PIDCommand {
+  /** Creates a new ArmShoulderAuton. */
+  public ArmShoulderAuton() {
     super(
-        // The ProfiledPIDController used by the command
-        new ProfiledPIDController(
-            // The PID gains
-            0,
-            0,
-            0,
-            // The motion profile constraints
-            new TrapezoidProfile.Constraints(3, 1.5)),
+        // The controller that the command will use
+        new PIDController(0, 0, 0),
         // This should return the measurement
         () -> 0,
-        // This should return the goal (can also be a constant)
-        () -> new TrapezoidProfile.State(),
+        // This should return the setpoint (can also be a constant)
+        () -> 0,
         // This uses the output
-        (output, setpoint) -> {
-          // Use the output (and setpoint, if desired) here
+        output -> {
+          // Use the output here
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.

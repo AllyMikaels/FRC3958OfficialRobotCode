@@ -2,49 +2,51 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive_PID.PID_Drive;
+import frc.robot.subsystems.Arm.PID_Arm;
 
-public class turn_to_angle extends CommandBase {
-  /** Creates a new turn_to_angle. */
-  private PID_Drive dt;
-  private double desiredAngle;
-  public turn_to_angle(PID_Drive d, double angle) {
+public class RotateShoulderAuton extends CommandBase {
+
+  private PID_Arm Arm;
+  private double goalAngle;
+
+    /** Creates a new RotateShoulderAuton. */
+  public RotateShoulderAuton(PID_Arm A, double ga) {
+
+    Arm = A;
+    goalAngle = ga;
     // Use addRequirements() here to declare subsystem dependencies.
-    dt = d;
-    desiredAngle = angle;
-    addRequirements(dt);
+    addRequirements(A);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    dt.restAnglePID();
-    dt.resetGyro(0);
+    Arm.resetGyro();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    dt.turnRun(desiredAngle);
+    Arm.ShoulderRotateToAngle(goalAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    dt.DisablePIDControll();
+    Arm.DisableShoulerPIDControl();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (dt.atSetpointAngle() == true){
-      dt.DisablePIDControll();
+    if (Arm.ShoulderatSetpoint() == true){
+      Arm.DisableShoulerPIDControl();
       return true;
     }
-    else{
+    else {
       return false;
     }
   }

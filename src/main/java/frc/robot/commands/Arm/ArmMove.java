@@ -6,13 +6,13 @@ package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.arm;
+import frc.robot.subsystems.Arm.arm;
 
-public class ArmSwing extends CommandBase {
+public class ArmMove extends CommandBase {
   private arm Arm;
   private XboxController xc;
   /** Creates a new ArmSwing. */
-  public ArmSwing(arm a, XboxController x) {
+  public ArmMove(arm a, XboxController x) {
     // Use addRequirements() here to declare subsystem dependencies.
     Arm = a;
     xc = x;

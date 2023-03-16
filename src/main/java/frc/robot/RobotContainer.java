@@ -8,17 +8,17 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AutonRoutine;
-import frc.robot.commands.Driving;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Extake;
 import frc.robot.commands.PID_Tuning_Command;
 import frc.robot.commands.Take;
-import frc.robot.commands.Arm.ArmSwing;
+import frc.robot.commands.Arm.ArmMove;
 import frc.robot.commands.Auton.MPController;
+import frc.robot.commands.AutonRoutines.AutonRoutine;
+import frc.robot.commands.Driving.Driving;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.arm;
+import frc.robot.subsystems.Arm.arm;
 import frc.robot.subsystems.intake;
 import frc.robot.subsystems.AutonStuff.AutoDriveSystem;
 import frc.robot.subsystems.Drive_PID.PID_Drive;
@@ -53,7 +53,7 @@ public class RobotContainer {
   private final MPController m_mpc = new MPController();
   private final Driving m_driving = new Driving(m_dt, m_driver);
   private final AutonRoutine autoC = new AutonRoutine(m_mpc, m_ads);
-  private final ArmSwing m_swinging = new ArmSwing(m_arm, m_operator);
+  private final ArmMove m_moving = new ArmMove(m_arm, m_operator);
 
   //private final Command plz = auto; 
 
@@ -74,15 +74,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // setting defult to PID for testing
     m_dt.setDefaultCommand(m_driving);
+    m_arm.setDefaultCommand(m_moving);
     //m_dt.setDefaultCommand(tuning);
-    //m_arm.setDefaultCommand(m_swinging);
 
     new JoystickButton(m_operator, Constants.XboxPortB)
       .toggleOnTrue(m_take);
 
     new JoystickButton(m_operator, Constants.XboxPortA)
-      .toggleOnTrue
-      (m_extake);
+      .toggleOnTrue(m_extake);
     
 
   }

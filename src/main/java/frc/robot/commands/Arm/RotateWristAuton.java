@@ -4,48 +4,49 @@
 
 package frc.robot.commands.Arm;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.arm;
+import frc.robot.subsystems.Arm.PID_Arm;
 
-public class writst_move extends CommandBase {
-  /** Creates a new writst_move. */
-  private arm Arm;
-  private XboxController xc;
-  public writst_move(arm a, XboxController x) {
+public class RotateWristAuton extends CommandBase {
+  PID_Arm Arm;
+  double goalAngle;
+
+  /** Creates a new RotateWristAuton. */
+  public RotateWristAuton(PID_Arm A, double ga) {
+
+    Arm = A;
+    goalAngle = ga;
     // Use addRequirements() here to declare subsystem dependencies.
-    Arm = a;
-    xc = x;
-    addRequirements(Arm);
+    addRequirements(A);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Arm.resetGyro();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (xc.getBButtonPressed()){
-      Arm.move_wrist(0.4);
-    }
-    else if(xc.getYButtonPressed()){
-      Arm.move_wrist(-0.4);
-    }
-    else{
-      Arm.move_wrist(0);
-    }
-
-    
+    Arm.WristRotateToAngle(goalAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    Arm.DisableWristPIDControl();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (Arm.WristatSetpoint() == true){
+      Arm.DisableWristPIDControl();
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
